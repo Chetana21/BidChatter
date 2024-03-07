@@ -1,0 +1,16 @@
+{
+  "name": "talk-a-tive",
+  "version": "1.0.0",
+  "description": "This is  a chat app that can be used in order to help people bid things online. Its  a art of the project of designing an online portal for bidding things.",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon backend/server.js"
+  },
+  "author": "Chetana Patil",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "nodemon": "^3.1.0"
+  }
+}
