@@ -28,6 +28,7 @@ const Signup = () => {
   const postDetails = (pics) => {
     setPicLoading(true);
     if (pics === undefined) {
+      //toast gives notifications to the user 
       toast({
         title: "Please select an image!",
         status: "warning",
@@ -37,17 +38,26 @@ const Signup = () => {
       });
       return;
     }
-
+//Only selected pic is of type image can be pushed to cloudinary.
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
+      //Make a new object named FormData
       const data = new FormData();
+      //The image file (pics) is appended to the FormData object with the key "file".
       data.append("file", pics);
+      //Other parameers related to cloudinary are also appended to the FormData object.
       data.append("upload_preset", "bidChatter");
-        data.append("cloud_name", "dngqn4iag");
+      data.append("cloud_name", "dngqn4iag");
+     // The fetch function is used to make a POST request to the Cloudinary API endpoint for uploading images.
       fetch(`https://api.cloudinary.com/v1_1/dngqn4iag/image/upload`, {
         method: "post",
         body: data,
       })
+        //the response is converted to JSON using res.json().
         .then((res) => res.json())
+      //The URL of the uploaded image is extracted from the response
+      // data (data.url) and  setPic unction sets the value of variable pic to the converted string url. 
+      //The setPicLoading function is called to indicate that the image upload 
+      //process is complete.
         .then((data) => {
           setPic(data.url.toString());
           console.log(data.url.toString());
@@ -92,13 +102,16 @@ const Signup = () => {
       });
       return;
     }
-    console.log(name, email, password, pic);
+    //console.log(name, email, password, pic);
+    //set up the HTTP request configuration with headers specifying the content type as JSON.
     try {
       const config = {
         headers: {
           "Content-type": "application/json",
         },
       };
+      //It makes a POST request to the /api/user endpoint (assuming it's the endpoint for user registration) with the user data (name, email, password, pic) in the request body.
+//If the request is successful, a success toast notification is displayed, and the user information (data) received from the server is stored in local storage for authentication purposes.
       const { data } = await axios.post(
         "/api/user",
         {

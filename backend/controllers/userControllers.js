@@ -25,7 +25,7 @@ const registerUser = asyncHandler(async (req,res) => {
     pic,
   });
 
-  //If new field is successfully created then sen the below response of json file to the user.
+  //If new field is successfully created then send the below response of json file to the client.
   if (user) {
     res.status(201).json({
       _id: user._id,
@@ -60,4 +60,26 @@ else{
     throw new Error( "Invalid Email or Password");
 }
 });
-module.exports={registerUser,authUser};
+
+// The api will look like /api/user/search=BidChatter , here search is a keyword variable and similarly we can provide other variables as well over here.
+const allUsers=asyncHandler(async(req,res)=>{
+  //If there is any query given then we will search the user in their name and email
+  const keyword = req.query.search
+    ? {
+        //We use this or operator from mongodb and see if either of the conditions match means either of email or the name matches and providing i inside options says its case sensitive.
+        $or: [
+          { name: { $regex: req.query.search, $options: "i" } },
+          { email: { $regex: req.query.search, $options: "i" } },
+        ],
+      }
+    : //if patterns dotn match do nothing
+      {};
+  //console.log(keyword);
+  //Now we would like to return all users that the above search result giave us EXCEPT the user that is currently logged in to avoid chatting with themselves only. That is the reson we write $ne means not equal to id of the loggedin user.
+
+  //In order to get this req,user,id we want our user to be logged in and provide us the json web token
+  const users = await User.find(keyword).find({ _id: { $ne: req.user.id } });
+  res.send(users);
+});
+module.exports = { registerUser, authUser, allUsers };
+ 
