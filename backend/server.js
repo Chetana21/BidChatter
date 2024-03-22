@@ -8,6 +8,8 @@ const connectDB = require("./config/db.js");
 const colors = require("colors");
 //Import usrRouter
 const userRoutes=require('./routes/userRoutes');
+//Import chatRouter
+const chatRoutes=require('./routes/chatRoutes.js');
 //Import errorhandlers
 const {notFound,errorHandler} = require("./middleware/errorMiddleware.js");
 //Create an intance of express variable
@@ -38,7 +40,8 @@ app.get("/", (req, res) => {
 //Write for actual data Or any requests made to paths starting with /api/user will be handled by the userRoutes middleware.
 //This Middleware functions can handle various types of requests (GET, POST, etc.) and perform actions like authentication, logging, or request processing.
 app.use('/api/user',userRoutes);
-
+//Create a new api endpoint to handle chats
+app.use('/api/chat',chatRoutes);
 
 //Errror handlers  one  for url not found and next for  other errors. 
 app.use(notFound);
