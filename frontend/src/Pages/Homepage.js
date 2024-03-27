@@ -9,9 +9,22 @@ import {
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 import Login from "../components/Authentication/Login"; 
 import Signup from "../components/Authentication/Signup";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 const Homepage = () => {
+  //Check if the user is logged in then push him back to the chats page
+  const history =useHistory();
+  //We stored the userInfo value in our local storaage so we will fetch that value and as that was stored using stringify, we will parse it as a json file
+  useEffect(() => {
+    const user= JSON.parse(localStorage.getItem("userInfo"));
+   
+    //Check if the user is logged  in its gonna get redirected to the chats page.
+    if (user) {
+      history.push("/chats");
+    }
+  }, [history]);
   return (
     <Container maxW="xl" centerContent>
       <Box
