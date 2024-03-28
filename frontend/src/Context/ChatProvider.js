@@ -3,10 +3,12 @@ import { useHistory } from "react-router-dom";
 //Create context
 const ChatContext = createContext();
 //Create a chat  provider that provides the state and methods to interact with it and which is going to wrap all our app
-const ChatProvider = (children) => {
-  //Creating a user state
+const ChatProvider = ({ children }) => {
+  //Creating a  state
+  const [selectedChat, setSelectedChat] = useState();
   const [user, setUser] = useState();
-    const history = useHistory();
+  const [chats, setChats] = useState([]);
+   const history = useHistory();
   //We stored the userInfo value in our local storaage so we will fetch that value and as that was stored using stringify, we will parse it as a json file
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -17,10 +19,20 @@ const ChatProvider = (children) => {
     }
   }, [history]);
   //Create value prop which takes an object with all of the above states
-  return 
-    <ChatContext.Provider value={{user, setUser}}>
+  return (
+    <ChatContext.Provider
+      value={{
+        selectedChat,
+        setSelectedChat,
+        user,
+        setUser,
+        chats,
+        setChats,
+      }}
+    >
       {children}
-    </ChatContext.Provider>;
+    </ChatContext.Provider>
+  );
   
 };
 export const ChatState = () => {

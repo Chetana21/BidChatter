@@ -5,16 +5,17 @@ import {
   Text,
   Tab,
   TabList,
-  TabPanel,
+  TabPanel, 
   TabPanels,
   Tabs,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import Login from "../components/Authentication/Login"; 
 import Signup from "../components/Authentication/Signup";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory } from "react-router-dom";
+
 const Homepage = () => {
-  //Check if the user is logged in then push him back to the chats page
+  // //Check if the user is logged in then push him back to the chats page
   const history =useHistory();
   //We stored the userInfo value in our local storaage so we will fetch that value and as that was stored using stringify, we will parse it as a json file
   useEffect(() => {
