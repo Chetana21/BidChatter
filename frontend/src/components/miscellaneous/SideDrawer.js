@@ -9,7 +9,7 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import {
   Drawer,
@@ -18,7 +18,7 @@ import {
   DrawerHeader,
   DrawerOverlay,
 } from "@chakra-ui/modal";
-import UserListItem from "../useravatar/UserListItem"
+import UserListItem from "../userAvatar/UserListItem";
 import { Menu } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/spinner";
 import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
@@ -38,7 +38,7 @@ const SideDrawer = () => {
 
   //Take User state form context API adn destructure the User state inside it.
 
- const { user, setSelectedChat, chats, setChats } = ChatState();
+  const { user, setSelectedChat, chats, setChats } = ChatState();
   const history = useHistory();
   // //Function for handling logout
   const logoutHandler = () => {
@@ -46,48 +46,48 @@ const SideDrawer = () => {
     history.push("/");
   };
   const toast = useToast();
-  //Functions to handle the search users 
-     const handleSearch = async () => {
-       if (!search) {
-         toast({
-           title: "Please Enter something in search",
-           status: "warning",
-           duration: 5000,
-           isClosable: true,
-           position: "top-left",
-         });
-         return;
-       }
+  //Functions to handle the search users
+  const handleSearch = async () => {
+    if (!search) {
+      toast({
+        title: "Please Enter something in search",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top-left",
+      });
+      return;
+    }
 
-       try {
-         setLoading(true);
+    try {
+      setLoading(true);
 
-         const config = {
-           headers: {
-             Authorization: `Bearer ${user.token}`,
-           },
-         };
+      const config = {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      };
 
-         const { data } = await axios.get(`/api/user?search=${search}`, config);
+      const { data } = await axios.get(`/api/user?search=${search}`, config);
 
-         setLoading(false);
-         setSearchResult(data);
-       } catch (error) {
-         toast({
-           title: "Error Occured!",
-           description: "Failed to Load the Search Results",
-           status: "error",
-           duration: 5000,
-           isClosable: true,
-           position: "bottom-left",
-         });
-       }
-     };
+      setLoading(false);
+      setSearchResult(data);
+    } catch (error) {
+      toast({
+        title: "Error Occured!",
+        description: "Failed to Load the Search Results",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+        position: "bottom-left",
+      });
+    }
+  };
   //Function for accessing the chats
-    const accessChat=async(userId)=>{
-      console.log(user._id);
- try {
-       setLoadingChat(true);
+  const accessChat = async (userId) => {
+    console.log(user._id);
+    try {
+      setLoadingChat(true);
       const config = {
         headers: {
           "Content-type": "application/json",
@@ -95,11 +95,11 @@ const SideDrawer = () => {
         },
       };
       //Make an API Req
-       const { data } = await axios.post(`/api/chat`, { userId }, config);
-//If already theres a chat and it finds then its just going to update the list using SetChats
-       if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
-       setSelectedChat(data);
-       setLoadingChat(false);
+      const { data } = await axios.post(`/api/chat`, { userId }, config);
+      //If already theres a chat and it finds then its just going to update the list using SetChats
+      if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+      setSelectedChat(data);
+      setLoadingChat(false);
       onClose();
     } catch (error) {
       toast({
@@ -111,7 +111,7 @@ const SideDrawer = () => {
         position: "bottom-left",
       });
     }
-    } 
+  };
   return (
     <div>
       <Box

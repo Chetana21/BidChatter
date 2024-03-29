@@ -2,6 +2,7 @@
 // import axios from "axios";
 import { ChatState } from "../Context/ChatProvider";
 import { Box } from "@chakra-ui/layout";
+import { useState } from "react";
 import SideDrawer from "../components/miscellaneous/SideDrawer";
 import MyChats from "../components/MyChats";
 import ChatBox from "../components/ChatBox";
@@ -29,6 +30,9 @@ const Chatpage = () => {
   //Take User state form context API adn destructure the User state inside it.
 
   const { user } = ChatState();
+
+  //
+   const [fetchAgain, setFetchAgain] = useState(false);
   //Check if user is there and accordingly render the below components.
   return (
     <div style={{ width: "100%" }}>
@@ -42,8 +46,10 @@ const Chatpage = () => {
           padding: "10px",
         }}
       >
-        {user && <MyChats />}
-        {user && <ChatBox />}
+        {user && <MyChats fetchAgain={fetchAgain} />}
+        {user && (
+          <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
+        )}
       </Box>
     </div>
   );
