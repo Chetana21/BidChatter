@@ -10,6 +10,8 @@ const colors = require("colors");
 const userRoutes=require('./routes/userRoutes');
 //Import chatRouter
 const chatRoutes=require('./routes/chatRoutes.js');
+//Import Message Router
+const messageRoutes=require("./routes/messageRoutes.js")
 //Import errorhandlers
 const {notFound,errorHandler} = require("./middleware/errorMiddleware.js");
 //Create an intance of express variable
@@ -42,11 +44,51 @@ app.get("/", (req, res) => {
 app.use('/api/user',userRoutes);
 //Create a new api endpoint to handle chats
 app.use('/api/chat',chatRoutes);
-
+//Create a ner API Endpoint to handle the messeges
+app.use("/api/message", messageRoutes);
 //Errror handlers  one  for url not found and next for  other errors. 
 app.use(notFound);
 app.use(errorHandler);
 
 //With the help of app variable we can start our own server which listens on a particular port which can be decided by us only.
 const PORT = process.env.PORT || 5000;
-app.listen(5000, console.log(`Server started on port ${PORT}`.yellow.bold));
+const server=app.listen(5000, console.log(`Server started on port ${PORT}`.yellow.bold));
+const io=require('socket.io')(server,{
+  pingTimeout:60000,
+  cors:{
+    origin:"http://localhost:3000",
+  },
+  });
+
+io.on("connection", (socket) => {
+  console.log("Connected to socket.io");
+  socket.on("setup", (userData) => {
+    socket.join(userData._id);
+    //console/log(userData);
+    socket.emit("connected");
+  });
+
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    console.log("User Joined Room: " + room);
+  });
+  socket.on("typing", (room) => socket.in(room).emit("typing"));
+  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+
+  socket.on("new message", (newMessageRecieved) => {
+    var chat = newMessageRecieved.chat;
+
+    if (!chat.users) return console.log("chat.users not defined");
+
+    chat.users.forEach((user) => {
+      if (user._id == newMessageRecieved.sender._id) return;
+
+      socket.in(user._id).emit("message recieved", newMessageRecieved);
+    });
+  });
+
+  socket.off("setup", () => {
+    console.log("USER DISCONNECTED");
+    socket.leave(userData._id);
+  });
+});

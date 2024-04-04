@@ -7,8 +7,9 @@ const ChatProvider = ({ children }) => {
   //Creating a  state
   const [selectedChat, setSelectedChat] = useState();
   const [user, setUser] = useState();
+  const [notification, setNotification] = useState([]);
   const [chats, setChats] = useState([]);
-   const history = useHistory();
+  const history = useHistory();
   //We stored the userInfo value in our local storaage so we will fetch that value and as that was stored using stringify, we will parse it as a json file
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -28,12 +29,13 @@ const ChatProvider = ({ children }) => {
         setUser,
         chats,
         setChats,
+        notification,
+        setNotification,
       }}
     >
       {children}
     </ChatContext.Provider>
   );
-  
 };
 export const ChatState = () => {
   return useContext(ChatContext);
