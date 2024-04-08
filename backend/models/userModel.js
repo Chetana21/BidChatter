@@ -10,6 +10,7 @@ const userSchema = mongoose.Schema(
       default:
         "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
+    biddingType: { type: String }, // Add this field for bidding type
   },
   {
     timestamps: true,

@@ -8,6 +8,7 @@ import {
   Button,
   Show,
   useToast,
+  Select
 } from "@chakra-ui/react";
 import React from "react";
 import { useState } from "react";
@@ -20,6 +21,7 @@ const Signup = () => {
   const [confirmpassword, setConfirmpassword] = useState();
   const [password, setPassword] = useState();
   const [pic, setPic] = useState();
+  const [biddingType, setBiddingType] = useState("");
   const [picLoading, setPicLoading] = useState(false);
   const [show, setShow] = useState(false);
   const toast = useToast();
@@ -120,6 +122,7 @@ const Signup = () => {
           email,
           password,
           pic,
+          biddingType,
         },
         config
       );
@@ -133,7 +136,7 @@ const Signup = () => {
       });
       localStorage.setItem("userInfo", JSON.stringify(data));
       setPicLoading(false);
-      history.push("/chats");
+      history.push("/");
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -210,6 +213,21 @@ const Signup = () => {
           placeholder="Enter your Picture"
           onChange={(e) => postDetails(e.target.files[0])}
         />
+      </FormControl>
+
+      <FormControl id="biddingType" isRequired>
+        <FormLabel htmlFor="biddingType">Bidding Type</FormLabel>
+        <Select
+          id="biddingType"
+          placeholder="Select bidding type"
+          onChange={(e) => setBiddingType(e.target.value)}
+        >
+          <option value="Type 1">Type 1</option>
+          <option value="Type 2">Type 2</option>
+          <option value="Type 3">Type 3</option>
+          <option value="Type 4">Type 4</option>
+          <option value="Type 5">Type 5</option>
+        </Select>
       </FormControl>
 
       <Button
