@@ -4,7 +4,7 @@ const User=require("../models/userModel");
 const generateToken=require('../config/generateToken ');
 //Define the registerUser controller function, which handles user registration
 const registerUser = asyncHandler(async (req,res) => {
-  const { name, email, password, pic, biddingType } = req.body;
+  const { name, email, password, pic, biddingType, role } = req.body;
   //If any of these is undefined, then we re gonna throw an error.
   if (!name || !email || !password) {
     res.status(400);
@@ -24,6 +24,7 @@ const registerUser = asyncHandler(async (req,res) => {
     password,
     pic,
     biddingType,
+    role,
   });
 
   //If new field is successfully created then send the below response of json file to the client.

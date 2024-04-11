@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema(
         "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
     biddingType: { type: String }, // Add this field for bidding type
+    role: { type: String, enum: ["vendor", "user"], default: "user" }, // Add this field for role
   },
   {
     timestamps: true,
