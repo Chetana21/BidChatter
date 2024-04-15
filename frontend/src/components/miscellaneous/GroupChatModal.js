@@ -13,6 +13,7 @@ import {
   Input,
   useToast,
   Box,
+  flexbox,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -55,7 +56,8 @@ const GroupChatModal = ({ children }) => {
           Authorization: `Bearer ${user.token}`,
         },
       };
-      const { data } = await axios.get(`/api/user?search=${search}`, config);
+      //const { data } = await axios.get(`/api/user?search=${search}`, config);
+       const { data } = await axios.get(`/api/user?search=${query}`, config); 
       console.log(data);
       setLoading(false);
       setSearchResult(data);
@@ -176,7 +178,10 @@ const GroupChatModal = ({ children }) => {
                 ))
             )}
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter >
+            {/* <Button onClick={handleSubmit} colorScheme="blue">
+              See registered users
+            </Button> */}
             <Button onClick={handleSubmit} colorScheme="blue">
               Create Chat
             </Button>

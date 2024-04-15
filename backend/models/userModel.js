@@ -12,6 +12,7 @@ const userSchema = mongoose.Schema(
     },
     biddingType: { type: String }, // Add this field for bidding type
     role: { type: String, enum: ["vendor", "user"], default: "user" }, // Add this field for role
+    aadharNumber: { type: Number, required: true, unique: true },
   },
   {
     timestamps: true,

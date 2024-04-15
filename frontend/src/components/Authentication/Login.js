@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-//import { ChatState } from "../../Context/ChatProvider";
+import { ChatState } from "../../Context/ChatProvider";
 const Login = () => {
      const [name, setName] = useState();
      const [email, setEmail] = useState();
@@ -22,7 +22,7 @@ const Login = () => {
      const [show, setShow] = useState(false);
       const toast = useToast();
       const history = useHistory();
-      // const { setUser } = ChatState();
+       const { setUser } = ChatState();
      //   Below function basically inverts the state of show variable
      const handleClick = () => setShow(!show);
      const submitHandler =async () => {
