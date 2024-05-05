@@ -12,6 +12,8 @@ const userRoutes=require('./routes/userRoutes');
 const chatRoutes=require('./routes/chatRoutes.js');
 //Import Message Router
 const messageRoutes=require("./routes/messageRoutes.js")
+//Import Product Routes
+const productRoutes=require("./routes/productRoutes.js")
 //Import errorhandlers
 const {notFound,errorHandler} = require("./middleware/errorMiddleware.js");
 //Create an intance of express variable
@@ -46,6 +48,8 @@ app.use('/api/user',userRoutes);
 app.use('/api/chat',chatRoutes);
 //Create a ner API Endpoint to handle the messeges
 app.use("/api/message", messageRoutes);
+//Create a new API Endpoint ot handle Product Information
+app.use("/api/productPage",productRoutes);
 //Errror handlers  one  for url not found and next for  other errors. 
 app.use(notFound);
 app.use(errorHandler);

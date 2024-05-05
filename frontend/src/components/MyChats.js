@@ -8,7 +8,7 @@ import ChatLoading from "./ChatLoading";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 import { Button } from "@chakra-ui/react";
 import { ChatState } from "../Context/ChatProvider";
-
+import { useHistory } from "react-router-dom";
 const MyChats = ({ fetchAgain }) => {
   //Local state
   const [loggedUser, setLoggedUser] = useState();
@@ -16,7 +16,10 @@ const MyChats = ({ fetchAgain }) => {
   const { selectedChat, setSelectedChat, user, chats, setChats } = ChatState();
 
   const toast = useToast();
-
+  const history=useHistory();
+const ProductPage=()=>{
+  history.push("./productPage")
+}
   const fetchChats = async () => {
     // console.log(user._id);
     try {
@@ -79,15 +82,23 @@ const MyChats = ({ fetchAgain }) => {
         </GroupChatModal> */}
         {loggedUser &&
           loggedUser.role === "vendor" && ( // Check if user is logged in and has the role of "vendor"
-            <GroupChatModal>
-              <Button
-                d="flex"
-                fontSize={{ base: "17px", md: "10px", lg: "17px" }}
-                rightIcon={<AddIcon />}
-              >
-                New Group Chat
-              </Button>
-            </GroupChatModal>
+            // <GroupChatModal>
+            //   <Button
+            //     d="flex"
+            //     fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+            //     rightIcon={<AddIcon />}
+            //   >
+            //     New Group Chat
+            //   </Button>
+            // </GroupChatModal>
+            <Button
+                 d="flex"
+                 fontSize={{ base: "17px", md: "10px", lg: "17px" }}
+                // rightIcon={<AddIcon />}
+                onClick={ProductPage}
+               >
+                 Schedule Bidding 
+               </Button>
           )}
       </Box>
       <Box
